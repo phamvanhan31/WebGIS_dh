@@ -1,0 +1,7 @@
+.selectionManagement_linkImg {
+    background-image: url('images/delObject.gif');
+	background-repeat: no-repeat; 
+	background-position: center;
+	cursor: pointer;
+	height: 16px;
+}

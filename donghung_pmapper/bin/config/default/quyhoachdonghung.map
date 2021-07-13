@@ -1,0 +1,531 @@
+################################################################################################ 
+# Adapt settings in map file <tt>pmapper_demo.map</tt> for the following tags to match settings
+# on your machine (see additionally MapServer documentation for detailed information):
+#
+#  MAP
+#    SHAPEPATH 
+#    FONTSET
+#    SYMBOLSET
+#  
+#  WEB
+#    IMAGEPATH  
+#    IMAGEURL    
+#
+##################################################################################################
+
+#
+# Start of map file  
+#
+MAP
+#EXTENT  628000 2265000 651000 2281000
+EXTENT 627757 2261746 651631 2285713 
+UNITS meters
+SIZE 600 500
+SHAPEPATH "../../../data"
+SYMBOLSET "../common/symbols/symbols-pmapper.sym"   
+FONTSET "../common/fonts/msfontset.txt" 
+RESOLUTION 96
+IMAGETYPE png
+IMAGECOLOR 240 255 255     # Map background color
+INTERLACE OFF
+#CONFIG "PROJ_LIB" "C:/proj/nad/"
+PROJECTION
+	"proj=tmerc"
+	"lat_0=0"
+	"lon_0=105.00"
+	"k=0.9996"
+	"x_0=500000"
+	"y_0=0"
+	"ellps=WGS84"
+	"units=m"
+	"no_defs"
+END
+
+#
+# Start of web interface definition
+#
+WEB
+  TEMPLATE "map.html"
+  IMAGEPATH "/ms4w/tmp/ms_tmp/"
+  IMAGEURL "/ms_tmp/"
+  METADATA
+    #"MAPFILE_ENCODING" "UTF-8" 
+    #"ows_title"     "WMS Demo Server"  
+    #"ows_onlineresource" "http://wms.yourserver.org?owskey=test&"   
+    #"ows_srs"       "SR-ORG:97620"  
+  END  # Metadata
+END  # Web
+
+#
+# Start of Reference map definition
+#
+REFERENCE
+  EXTENT 627757 2261746 651631 2283713
+  IMAGE "../../images/qhdh_reference.png"
+  SIZE 162 151
+  COLOR -1 -1 -1
+  OUTLINECOLOR 255 0 0
+END  # Reference
+
+
+#
+# Start of legend object
+#
+LEGEND
+	STATUS OFF
+	IMAGECOLOR 255 255 255
+#	OUTLINECOLOR 0 0 0
+	POSITION ll
+	KEYSIZE 18 12
+	KEYSPACING 10 5 
+	TEMPLATE "void"
+	LABEL
+		TYPE TRUETYPE
+		FONT "FreeSans"
+		SIZE small
+		POSITION AUTO
+		COLOR 0 0 89
+		OUTLINECOLOR 255 255 255
+		ANTIALIAS TRUE
+	END
+END
+
+#
+# Start of ScaleBar definition
+#
+SCALEBAR
+  STATUS off
+  TRANSPARENT off
+  INTERVALS 4
+  SIZE 200 3
+  UNITS kilometers
+  COLOR 250 250 250
+  OUTLINECOLOR 0 0 0
+  BACKGROUNDCOLOR 100 100 100
+  STYLE 0
+  POSTLABELCACHE true
+  LABEL
+    COLOR 0 0 90
+    #OUTLINECOLOR 200 200 200
+    SIZE small
+  END  # Label
+END  # Reference
+
+
+
+# SYMBOLS USED
+# - 'circle' always necessary (used e.g. for highlight)
+# - 'square' used in currecnt map file
+# Symbols can also be defined via tag SYMBOLSET (see above)
+Symbol
+  Name 'circle'
+  Type ELLIPSE
+  Filled TRUE
+  Points
+    1 1
+  END
+END 
+
+Symbol
+  Name 'square'
+  Type VECTOR
+  Filled TRUE
+  Points
+    0 1
+    0 0
+    1 0
+    1 1
+    0 1
+  END
+END
+
+ # Symbol for drawing fat lines
+ #
+ SYMBOL
+ NAME "BigLine"
+ TYPE ELLIPSE
+ POINTS 1 1 END
+ END
+
+ #####################################
+ # Symbol for drawing dashed lines
+ #
+ SYMBOL
+ NAME "DashedLine"
+ TYPE ELLIPSE
+ POINTS 5 5 END
+ END
+
+
+
+#================== START OF LAYER SECTION =====================#
+
+ 
+#
+# Start of Hien trang su dung dat
+#
+LAYER
+  NAME "hien_trang_sdd"
+  TYPE polygon
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, ma_mdsd, hien_trang, ten_xa, ten_huyen, ky_hieu_da, ten_dat_fa, ten_dat_vn, full_color, shape_area from public.hien_trang_sdd) as foo_ht using unique gid"
+  TRANSPARENCY 95
+  TEMPLATE void
+  LABELITEM ma_mdsd
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "hien_trang_sdd"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "ma_mdsd, shape_area, hien_trang, ten_xa, ten_huyen, ky_hieu_da, ten_dat_fa, ten_dat_vn"
+	"RESULT_HEADERS" "ma_mdsd, shape_area, hien_trang, ten_xa, ten_huyen, ky_hieu_da, ten_dat_fa, ten_dat_vn"
+    "ows_title"      "hien_trang_sdd"
+  END  # Metadata 
+  CLASS
+    Name 'hien_trang_sdd'
+    STYLE
+		COLOR [full_color]
+		OUTLINECOLOR 150 150 150
+		WIDTH 0.3
+	END
+	LABEL
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 220 255 255
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 20000  #do not display at scale smaller than 1:20.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial
+      SIZE 6
+
+    END #Label  
+  END  # Class
+END  # Layer
+
+#-----------------------------------------------------------------------#
+#
+# Start of quy_hoach_sdd
+#
+LAYER
+  NAME "quy_hoach_sdd"
+  TYPE polygon
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    #DATA "the_geom from (SELECT gid, the_geom, ma_mdsd, full_color, shape_area from public.quy_hoach_sdd)  as foo_qh using unique gid"
+	DATA "the_geom from (SELECT gid, the_geom, ma_mdsd, muc_dich, ngay_bat_dau, ngay_ket_thuc, nguoi_chiu_trach_nhiem, ghi_chu, full_color, shape_area, ngay_cap_nhat, nsd_ht_id, trang_thai,  mo_ta_van_de from quy_hoach_sdd left join tien_do_qh on quy_hoach_sdd.gid = tien_do_qh.qhsdd_id) as foo_qh using unique gid"
+  TRANSPARENCY 75
+  TEMPLATE void
+  LABELITEM ma_mdsd
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "doi_tuong_quy_hoach"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "ma_mdsd, shape_area, muc_dich, ngay_bat_dau, ngay_ket_thuc, nguoi_chiu_trach_nhiem, ghi_chu, trang_thai, mo_ta_van_de"
+	"RESULT_HEADERS" "ma_mdsd, shape_area, muc_dich, ngay_bat_dau, ngay_ket_thuc, nguoi_chiu_trach_nhiem, ghi_chu, trang_thai, mo_ta_van_de"
+    "ows_title"      "quy_hoach"
+  END  # Metadata 
+  CLASS
+    Name 'quy_hoach_sdd'
+    STYLE
+		COLOR [full_color]
+		OUTLINECOLOR 255 0 0
+		WIDTH 1.2
+	END
+	LABEL
+      POSITION Auto
+      COLOR 200 0 0 
+	  OUTLINECOLOR 255 255 255
+	  OUTLINEWIDTH 2
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 75000  #do not display at scale larger than 1:75.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial
+      SIZE 8
+    END #Label  
+  END  # Class
+END  # Layer
+
+#-----------------------------------------------------------------------#
+#
+# Start of phan_hoi_kg
+#
+LAYER
+  NAME "phan_hoi_kg"
+  TYPE polygon
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, nsd_id, ngay_phan_hoi, noi_dung, da_xu_ly, noi_dung_tra_loi, ngay_tra_loi from public.phan_hoi_kg)  as foo4 using unique gid"
+  TRANSPARENCY 75
+  TEMPLATE void
+  LABELITEM gid
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "phan_hoi_kg"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "nsd_id, ngay_phan_hoi, noi_dung, da_xu_ly, noi_dung_tra_loi, ngay_tra_loi"
+	"RESULT_HEADERS" "nsd_id, ngay_phan_hoi, noi_dung, da_xu_ly, noi_dung_tra_loi, ngay_tra_loi"
+    "ows_title"      "phan_hoi_kg"
+  END  # Metadata 
+  CLASS
+    Name 'phan_hoi'
+    STYLE
+		COLOR 0 0 220
+		OUTLINECOLOR 255 255 255
+		WIDTH 1.2
+	END
+	LABEL
+      POSITION Auto
+      COLOR 200 0 0 
+	  OUTLINECOLOR 255 255 255
+	  OUTLINEWIDTH 2
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 20000  #do not display at scale smaller than 1:20.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Ariali
+      SIZE 8
+    END #Label  
+  END  # Class
+END  # Layer
+
+#-----------------------------------------------------------------------#
+#
+# Start of dia_danh
+#
+LAYER
+  NAME "dia_danh"
+  TYPE point
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, ten_dia_danh, cls from public.dia_danh) as foo_dia_danh using unique gid"
+  TRANSPARENCY 100
+  TEMPLATE void
+  LABELITEM ten_dia_danh
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "ten_dia_danh"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "ten_dia_danh"
+	"RESULT_HEADERS" "ten_dia_danh"
+    "ows_title"      "dia_danh"
+  END  # Metadata 
+  CLASS
+    Name 'ten_xa'
+	EXPRESSION ('[cls]' eq 'ten_xa')	
+    STYLE
+		OUTLINECOLOR 80 80 80
+		WIDTH 0.3
+	END
+	LABEL
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 240 255 255
+	  OUTLINEWIDTH 2
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 150000  #do not display at scale larger than 1:150.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arialbd
+      SIZE 9
+    END #Label  
+  END  # Class
+  CLASS
+    Name 'ten_thon'
+	EXPRESSION ('[cls]' eq 'ten_thon')	
+    STYLE
+		OUTLINECOLOR 80 80 80
+		WIDTH 0.3
+	END
+	LABEL
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 240 255 255
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 50000  #do not display at scale smaller than 1:50.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial
+      SIZE 7
+    END #Label  
+  END  # Class
+  CLASS
+    Name 'giap_ranh'
+	EXPRESSION ('[cls]' eq 'giap_ranh')	
+    STYLE
+		OUTLINECOLOR 80 80 80
+		WIDTH 0.3
+	END
+	LABEL
+	  OFFSET 100 0
+      COLOR 20 20 255 
+	  OUTLINECOLOR 240 255 255
+	  OUTLINEWIDTH 2
+	  MINDISTANCE 30
+	  MAXSCALEDENOM 100000  #do not display at scale smaller than 1:100.000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arialbd
+      SIZE 12
+    END #Label  
+  END  # Class  
+END  # Layer
+
+#-----------------------------------------------------------------------#
+#
+# Start of ranh_gioi_hc
+#
+LAYER
+  NAME "ranh_gioi_hc"
+  TYPE line
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, cls from public.ranh_gioi_hc) as foo_ranh_gioi_hc using unique gid"
+  TRANSPARENCY 75
+  TEMPLATE void
+  LABELITEM cls
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "ranh_gioi_hc"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "cls"
+	"RESULT_HEADERS" "cls"
+    "ows_title"      "ranh_gioi_hc"
+  END  # Metadata 
+  CLASS
+    Name 'ranh_gioi_xa'
+	EXPRESSION ('[cls]' eq 'ranh_gioi_xa')	
+    STYLE
+      COLOR 50 50 50
+      WIDTH 1.5
+      LINECAP round #[butt|round|square|triangle]
+      LINEJOIN miter #[round|miter|bevel]
+      LINEJOINMAXSIZE 2
+      PATTERN 16 5 0 5 0 5 END  # one dash 16px, two dots separated by (three) gaps 5px
+    END # STYLE
+  END  # Class
+  CLASS
+    Name 'ranh_gioi_huyen'
+	EXPRESSION ('[cls]' eq 'ranh_gioi_huyen')	
+    STYLE
+	  OUTLINECOLOR 200 120 255
+	  WIDTH 8
+    END # STYLE
+  END  # Class  
+END  # Layer
+
+#
+# Start of giao_thong
+#
+LAYER
+  NAME "giao_thong"
+  TYPE line
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, cls from public.giao_thong) as foo_giao_thong using unique gid"
+  TRANSPARENCY 75
+  TEMPLATE void
+  LABELITEM cls
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "giao_thong"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "cls"
+	"RESULT_HEADERS" "cls"
+    "ows_title"      "giao_thong"
+  END  # Metadata 
+  CLASS
+    Name 'gt'
+	EXPRESSION ('[cls]' eq 'gt')	
+    STYLE
+      COLOR 102 51 0
+      WIDTH 1.0
+	  PATTERN 10 5 END
+    END # STYLE
+  END  # Class
+  CLASS
+    Name 'gt_xa'
+	EXPRESSION ('[cls]' eq 'gt_xa')	
+    STYLE
+		COLOR 102 51 0
+		WIDTH 0.7    
+		PATTERN 6 3 END
+	 END # STYLE
+  END  # Class  
+  CLASS
+    Name 'gt_huyen'
+	EXPRESSION ('[cls]' eq 'gt_huyen')	
+    STYLE
+		COLOR 102 51 0
+		WIDTH 2.0    
+		PATTERN 20 10 END
+	 END # STYLE
+  END  # Class    
+  CLASS
+    Name 'quoc_lo'
+	EXPRESSION ('[cls]' eq 'quoc_lo')	
+    STYLE
+		COLOR 102 51 0
+		WIDTH 4.0    
+	 END # STYLE
+  END  # Class    
+END  # Layer
+
+#-----------------------------------------------------------------------#
+#
+# Start of ubnd
+#
+LAYER
+  NAME "ubnd"
+  TYPE point
+  CONNECTIONTYPE postgis
+    INCLUDE "qhdh_connection.map"
+    DATA "the_geom from (SELECT gid, the_geom, cls from public.ubnd) as foo_ubnd using unique gid"
+  TRANSPARENCY 100
+  TEMPLATE void
+  LABELITEM cls
+  METADATA 
+    "LAYER_ENCODING" "UTF-8"
+	"DESCRIPTION" "ubnd"
+    ## ADAPTED TO MULTILINGUAL SHAPEFILE
+    "RESULT_FIELDS" "cls"
+	"RESULT_HEADERS" "cls"
+    "ows_title"      "ubnd"
+  END  # Metadata 
+  CLASS
+    Name 'ub_xa'
+	EXPRESSION ('[cls]' eq 'UB_xa')	
+    STYLE # two circle
+		SYMBOL "circle"
+		COLOR 255 255 255
+		OUTLINECOLOR 0 0 0
+		SIZE 10
+	END
+    STYLE
+		SYMBOL "circle"
+		COLOR 0 0 0
+		SIZE 7
+	END
+  END  # Class
+  CLASS
+    Name 'ub_huyen'
+	EXPRESSION ('[cls]' eq 'UB_huyen')	
+    STYLE
+		SYMBOL "circle"
+		COLOR 255 255 255
+		OUTLINECOLOR 255 0 0
+		SIZE 15
+	END
+    STYLE
+		SYMBOL "circle"
+		COLOR 255 100 0
+		SIZE 10
+	END
+  END  # Class
+END  # Layer
+
+
+END  #Map

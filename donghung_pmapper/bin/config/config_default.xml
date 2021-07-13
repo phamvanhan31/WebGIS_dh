@@ -1,0 +1,160 @@
+<pmapper>
+    <ini>
+        <pmapper>
+            <pmTitle>Hệ thống thông tin quy hoạch sử dụng đất huyện Đông Hưng, tỉnh Thái Bình</pmTitle>
+            <debugLevel>3</debugLevel>
+            <plugins>export</plugins>
+            <plugins>scalebar</plugins>
+            <plugins>transparency</plugins>
+            <plugins>graphicalqueries</plugins>
+			<plugins>queryeditor</plugins>
+			<plugins>digitizepoints</plugins>
+			<plugins>binh_review_feedback</plugins>
+			<plugins>binh_dlg</plugins>
+        </pmapper>
+        <config>
+            <pm_config_location>default</pm_config_location>
+            <pm_javascript_location>javascript</pm_javascript_location>
+            <pm_print_configfile>common/print.xml</pm_print_configfile>
+            <pm_search_configfile>inline</pm_search_configfile>
+        </config>
+        <map>
+            <mapFile>quyhoachdonghung.map</mapFile>
+            <tplMapFile>common/template.map</tplMapFile>
+            <categories>
+				<category name="thematic_map">
+					<group>phan_hoi_kg</group>
+					<group>quy_hoach_sdd</group>
+				</category>
+                <category name="base_map">
+					<group>hien_trang_sdd</group>
+					<group>dia_danh</group>
+					<group>ranh_gioi_hc</group>
+					<group>giao_thong</group>
+					<group>ubnd</group>
+                </category>
+            </categories>
+            <allGroups>
+				<group>hien_trang_sdd</group>
+				<group>quy_hoach_sdd</group>
+				<group>phan_hoi_kg</group>
+				<group>dia_danh</group>
+				<group>ranh_gioi_hc</group>
+				<group>giao_thong</group>
+				<group>ubnd</group>
+            </allGroups>
+            <defGroups>
+				<group>hien_trang_sdd</group>
+				<group>quy_hoach_sdd</group>
+				<group>phan_hoi_kg</group>
+				<group>dia_danh</group>
+				<group>ranh_gioi_hc</group>
+				<group>giao_thong</group>
+				<group>ubnd</group>
+            </defGroups>
+            <layerAutoRefresh>1</layerAutoRefresh>
+            <imgFormat>png8</imgFormat>
+            <altImgFormat>jpeg</altImgFormat>
+            <sliderMax>max</sliderMax>
+            <sliderMin>10000</sliderMin>
+        </map>
+        <query>
+            <limitResult>300</limitResult>
+            <highlightColor>0 255 255</highlightColor>
+            <highlightSelected>1</highlightSelected>
+            <autoZoom>nquery</autoZoom>
+            <autoZoom>search</autoZoom>
+            <zoomAll>search</zoomAll>
+            <zoomAll>nquery</zoomAll>
+            <infoWin>dynwin</infoWin>
+            <alignQueryResults>1</alignQueryResults>
+            <pointBuffer>1000</pointBuffer>
+            <shapeQueryBuffer>0.02</shapeQueryBuffer>
+        </query>
+        <ui>
+            <tocStyle>tree</tocStyle>
+            <legendStyle>attached</legendStyle>
+            <useCategories>1</useCategories>
+            <catWithCheckbox>1</catWithCheckbox>
+            <scaleLayers>1</scaleLayers>
+            <icoW>18</icoW>
+            <icoH>14</icoH> 
+			<legendKeyimageRewrite>0</legendKeyimageRewrite>
+        </ui>
+        <locale>
+            <defaultLanguage>vi</defaultLanguage>
+            <defaultCharset>UTF-8</defaultCharset>
+            <map2unicode>1</map2unicode>
+        </locale>
+        <print>
+            <printImgFormat>png</printImgFormat>
+            <printAltImgFormat>jpeg</printAltImgFormat>
+            <pdfres>2</pdfres>
+        </print>
+        <download>
+            <dpiLevels>150</dpiLevels>
+            <dpiLevels>200</dpiLevels>
+            <dpiLevels>300</dpiLevels>
+        </download>
+        <php>
+            <pearDbClass>MDB2</pearDbClass>
+            <defaultTimeZone>Asia/Ho_Chi_Minh</defaultTimeZone>
+        </php>
+        <pluginsConfig>
+            <export>
+                <formats>XLS</formats>
+                <formats>CSV</formats>
+                <formats>PDF</formats>
+            </export>
+			<graphicalqueries>
+			  <bufferOnlyWithScale>1</bufferOnlyWithScale>
+			</graphicalqueries>
+			<queryeditor>
+				<layersType>3</layersType>
+				<queryableLayers>
+					<queryableLayer>
+						<name>hien_trang_sdd</name>
+						<description>Hiện trạng sử dụng đất</description>
+					</queryableLayer>
+				</queryableLayers>
+				<dlgType>dynwin</dlgType>
+			</queryeditor>
+			<digitizepoints>
+				<dlgOptions>
+					<width>350</width>              <!-- Pop-up window width. -->
+					<height>400</height>            <!-- Pop-up window height.  -->
+					<left>60</left>                <!-- Left position of pop-up.  -->
+					<top>50</top>                   <!-- Top position of pop-up.  -->
+					<decimals>3</decimals>          <!-- How many decimals to keep in coordinates.  -->
+					<dlgTimeout>5000</dlgTimeout>   <!-- Timeout in ms for pop-up disappear. -->
+				</dlgOptions>
+			</digitizepoints>	
+
+        </pluginsConfig>
+		
+		
+    </ini>
+    
+    
+    
+    <searchlist version="1.0">
+        <dataroot>$</dataroot>
+        <searchitem name="hien_trang_sdd" description="Hiện trạng SDĐ">
+            <layer type="postgis" name="hien_trang_sdd">
+                <field type="s" name="ma_mdsd" description="MĐSD"  wildcard="0" />
+            </layer>
+        </searchitem>
+        <searchitem name="quy_hoach_sdd" description="Quy hoạch SDĐ">
+            <layer type="postgis" name="quy_hoach_sdd">
+                <field type="s" name="ma_mdsd" description="MĐSD"  wildcard="0" />
+            </layer>
+        </searchitem>
+        <searchitem name="dia_danh" description="Địa danh">
+            <layer type="postgis" name="dia_danh">
+                <field type="s" name="ten_dia_danh" description="Tên địa danh"  wildcard="0" />
+            </layer>
+        </searchitem>		
+	</searchlist>
+    
+    
+</pmapper>

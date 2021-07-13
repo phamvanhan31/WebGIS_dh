@@ -1,0 +1,19 @@
+#mapToolArea .graphicalQueries {
+	border-style: solid;
+	-moz-border-radius-bottomleft: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	right: 35px;
+	top: 98px;
+	text-align: left;
+}
+
+.pm-selectbox {
+	right: 35px;
+	top: 66px;
+}
+
+#sliderArea {
+	top: 216px;
+}

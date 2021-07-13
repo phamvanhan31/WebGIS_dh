@@ -1,0 +1,158 @@
+/* ------------------
+ styling for the tables 
+   ------------------   */
+
+body
+{
+	line-height: 1.2em;
+}
+
+
+table.rounded-corner
+{
+	font-family: Calibri, Tahoma, "Sans-Serif";
+	font-size: 14px;
+	margin: 5px;
+	/*width: 1200px;*/
+	text-align: left;
+	border-collapse: collapse;
+}
+.rounded-corner thead th.rounded-left
+{
+	background: #b9c9fe url('table-images/left.png') left -1px no-repeat;
+}
+.rounded-corner thead th.rounded-right
+{
+	background: #b9c9fe url('table-images/right.png') right -1px no-repeat;
+}
+
+.rounded-corner thead th.headerSortUp											/*style for header when sorting */
+{
+	background: #b9c9fe url('table-images/desc.gif') -6px 3px  no-repeat;  /* can be center left instead of -6px 3px */
+}
+.rounded-corner thead th.headerSortDown										/*style for header when sorting */
+{
+	background: #b9c9fe url('table-images/asc.gif') -6px 3px no-repeat;
+}
+
+
+.rounded-corner th
+{
+	padding: 10px;
+	font-weight: normal;
+	font-size: 14px;
+	color: #039;
+	background: #b9c9fe /* url('table-images/bg.gif') -6px 3px no-repeat;*/  /*image for header indicating sorting */
+}
+
+
+	
+
+.rounded-corner td
+{
+	padding: 4px;
+	background: #e8edff;
+	border-top: 1px solid #fff;
+	color: #000;
+}
+.rounded-corner tfoot td.rounded-foot-left
+{
+	background: #e8edff url('table-images/botleft.png') left bottom no-repeat;
+	color: #0030ff;
+}
+.rounded-corner tfoot td.rounded-foot-right
+{
+	background: #e8edff url('table-images/botright.png') right bottom no-repeat;
+}
+.rounded-corner tbody tr:hover td
+{
+	background: #d0dafd;
+}
+
+/* table with rounded conner for styling webform group of elements, see edit data view webform*/
+table.roundedtable
+{
+	font-family: "Tahoma", Sans-Serif;
+	font-size: 12px;
+	margin: -1px;
+	text-align: left;
+	border-collapse: collapse;
+}
+
+.roundedtable td.topleft
+{
+	background: url('table-images/rounded_topleft.gif') left -0px no-repeat;
+	height: 15px;
+	width: 12px;
+}
+.roundedtable td.topright
+{
+	background: url('table-images/rounded_topright.gif') right -0px no-repeat;
+	height: 15px;
+	width: 12px;
+}
+.roundedtable td.bottomleft
+{
+	background: url('table-images/rounded_bottomleft.gif') left -0px no-repeat;
+	height: 15px;
+	width: 12px;
+}
+.roundedtable td.bottomright
+{
+	background: url('table-images/rounded_bottomright.gif') right -0px no-repeat;
+	height: 15px;
+	width: 12px;
+}
+.roundedtable td.topcol
+{
+	border-top: 2px solid #00cdff;
+}
+.roundedtable td.bottomcol
+{
+	border-bottom: 2px solid #00cdff;
+}
+.roundedtable td.leftcol
+{
+	border-left: 2px solid #00cdff;
+}
+.roundedtable td.rightcol
+{
+	border-right: 2px solid #00cdff;
+}
+
+/* CSS style for fieldset */
+fieldset.control_fieldset 
+{
+    background: -moz-linear-gradient(center top , #F7F7F7, #FFFFFF) repeat scroll 0 0 transparent;
+    border: 2px solid #00CDFF;
+    border-radius: 10px 10px 10px 10px;
+    margin-bottom: 2px;
+    padding-top: 10px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 8px;
+    /*text-shadow: 0 1px 0 #E0E0E0;*/
+	font-family: "Tahoma", Sans-Serif;
+	font-size: 12px;	
+}
+
+.control_fieldset legend
+{
+	font-weight: bold;
+}
+
+/* CSS style for elements when hovered or selected */
+input[type="text"]:focus,input[type="password"]:focus,input[type="checkbox"]:focus,checkbox:focus, textarea:focus
+{
+	background-color: #FFF5D0;
+	border: solid 2px #00CC00;
+}
+input[type="text"]:hover,input[type="password"]:hover,input[type="checkbox"]:focus,checkbox:hover, textarea:hover
+{
+	background-color: #FFF1D0;
+	/*border: solid 1px #00CC00;*/
+}
+
+
+
+
